@@ -21,7 +21,7 @@ public class MySimpleFileVisitor extends SimpleFileVisitor<Path> {
             outCharset = Charset.forName("UTF-8");
 
     public MySimpleFileVisitor(Path output_file_path) throws IOException {
-        this.output_file_channel = FileChannel.open(output_file_path, EnumSet.of(CREATE, APPEND));
+        this.output_file_channel = FileChannel.open(output_file_path, EnumSet.of(CREATE, APPENDe));
     }
 
     private void recodeForUtf(FileChannel input_file_channel, long buffer_size){

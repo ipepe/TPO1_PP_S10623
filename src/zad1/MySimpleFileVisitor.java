@@ -2,6 +2,7 @@ package zad1;
 
 import static java.nio.file.FileVisitResult.*;
 import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -20,24 +21,24 @@ public class MySimpleFileVisitor extends SimpleFileVisitor<Path> {
             outCharset = Charset.forName("UTF-8");
 
     public MySimpleFileVisitor(Path output_file_path) throws IOException {
-        this.output_file_channel = FileChannel.open(output_file_path, APPEND);
+        this.output_file_channel = FileChannel.open(output_file_path, EnumSet.of(CREATE, APPEND));
     }
 
     private void recodeForUtf(FileChannel input_file_channel, long buffer_size){
         common_buffer = ByteBuffer.allocate((int)buffer_size +1);
         common_buffer.clear();
-        
+
         try {
-        	
+
         	input_file_channel.read(common_buffer);
         	common_buffer.flip();
         	CharBuffer cbuf = inCharset.decode(common_buffer);
         	ByteBuffer buf = outCharset.encode(cbuf);
-        	
+
         	while( buf.hasRemaining() ){
         		this.output_file_channel.write(buf);
         	}
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
